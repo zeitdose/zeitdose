@@ -1,7 +1,17 @@
+import { DrizzlePostgreSQLAdapter } from '@lucia-auth/adapter-drizzle'
 import { sql } from '@vercel/postgres'
 import { drizzle } from 'drizzle-orm/vercel-postgres'
+import { Lucia } from 'lucia'
 
-// import * as schema from '~/db/schema'
-// export const db = drizzle(sql ,{ schema})
+declare module 'lucia' {
+  interface Register {
+    Lucia: typeof Lucia
+    UserId: number
+  }
+}
 
-export const db = drizzle(sql)
+import * as schema from '~/db/schema'
+import { sessionTable, userTable } from '~/db/schema/user'
+
+export const db = drizzle(sql, { schema })
+export const adapter = new DrizzlePostgreSQLAdapter(db, sessionTable, userTable)
