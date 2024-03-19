@@ -4,7 +4,8 @@
     "dprint@latest"
   ],
   "env": {
-    "DEVBOX_COREPACK_ENABLED": "true"
+    "DEVBOX_COREPACK_ENABLED": "true",
+    "PNPM_HOME": "$HOME/.local/share/pnpm"
   },
   "shell": {
     "init_hook": [
