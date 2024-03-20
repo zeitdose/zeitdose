@@ -1,7 +1,6 @@
-import type { Lucia } from 'lucia'
-
 import { relations } from 'drizzle-orm'
 import { integer, pgEnum, pgTable, serial, text, timestamp, varchar } from 'drizzle-orm/pg-core'
+import { createInsertSchema, createSelectSchema } from 'drizzle-valibot'
 
 import { journalTable } from '~/db/schema/journal'
 import { noteTable } from '~/db/schema/note'
@@ -11,10 +10,10 @@ export const reminderEnum = pgEnum('reminder', ['system', 'email', 'telegram', '
 
 export const userTable = pgTable('user', {
   id: serial('id').primaryKey(),
-  name: text('name').notNull(),
-  email: text('email').notNull(),
+  username: text('name').notNull().unique(),
+  email: text('email'),
   avatarUrl: varchar('avatar', { length: 512 }).default(''),
-  hashedPassword: text('hash_password'),
+  hashedPassword: text('hashed_password').notNull(),
 
   reminder: reminderEnum('reminder').default('system'),
   remindBefore: integer('remind_before').default(7),
@@ -34,6 +33,9 @@ export const userRelations = relations(userTable, ({ many, one }) => ({
     references: [workspace.id],
   }),
 }))
+
+export const insertUserSchema = createInsertSchema(userTable)
+export const selectUserSchema = createSelectSchema(userTable)
 
 export const sessionTable = pgTable('session', {
   id: text('id').primaryKey(),
