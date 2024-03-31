@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "@radix-ui/colors/slate";
+@import "@radix-ui/colors/slate-alpha";
+@import "@radix-ui/colors/slate-dark";
+@import "@radix-ui/colors/slate-dark-alpha";
+
 @layer base {
   :root {
     --background: 0 0% 100%;
