@@ -1,2 +1,1 @@
-import { signUp } from "~/lib/actions/signup";
-
+import { signUp } from '~/lib/actions/signup'

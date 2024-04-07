@@ -1,28 +1,20 @@
-"use client"
+'use client'
 
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "~/components/ui/form"
-import { useForm } from "react-hook-form"
-import { Input } from "~/components/ui/input"
+import { useForm } from 'react-hook-form'
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form'
+import { Input } from '~/components/ui/input'
 // import { toast } from "~/components/ui/use-toast"
-import { signUp } from "~/lib/actions/signup"
+import { signUp } from '~/lib/actions/signup'
 
-export const LoginForm = ( ) => {
-  
+export const LoginForm = () => {
   return (
     <>
       <div>
         <h2>Log in</h2>
         <small>Welcome back! Please enter your details</small>
       </div>
-      {/* <Form {...form}>
+      {
+        /* <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
         <FormField
           control={form.control}
@@ -42,7 +34,8 @@ export const LoginForm = ( ) => {
         />
         <Button type="submit">Submit</Button>
       </form>
-    </Form> */}
+    </Form> */
+      }
     </>
-   );
-};
+  )
+}
