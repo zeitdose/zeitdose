@@ -23,6 +23,7 @@
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-separator": "^1.0.3",
     "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-toast": "^1.1.5",
     "@vercel/postgres": "^0.7.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
@@ -39,7 +40,8 @@
     "react-hook-form": "^7.51.2",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",
-    "tailwindcss-radix-colors-plugin": "^0.2.4"
+    "tailwindcss-radix-colors-plugin": "^0.2.4",
+    "valibot": "^0.30.0"
   },
   "devDependencies": {
     "@types/node": "^20",

@@ -17,6 +17,12 @@ export const signUp = async (username: string, password: string) => {
     }
   }
 
+  if (username.length < 2) {
+    return {
+      error: 'Username must be at least 2 characters',
+    }
+  }
+
   const hashedPassword = await new Argon2id().hash(password)
 
   try {
