@@ -8,8 +8,8 @@ const nextConfig = {
     return config
   },
   experimental: {
-		serverComponentsExternalPackages: ["oslo", "@node-rs/argon2"]
-	}
+    serverComponentsExternalPackages: ['oslo', '@node-rs/argon2'],
+  },
 }
 export default MillionLint.next({
   rsc: true,
