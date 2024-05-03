@@ -1,8 +1,11 @@
-import 'dotenv/config'
-import type { Config } from 'drizzle-kit'
+import './src/drizzle/envConfig';
+import type { Config } from "drizzle-kit";
 
 export default {
-  schema: '~/src/db/schema/index.ts',
-  out: '~/src/drizzle',
+  schema: './src/db/schema/index.ts',
+  out: './src/drizzle',
   driver: 'pg',
-} satisfies Config
+  dbCredentials: {
+    connectionString: process.env.POSTGRES_URL!,
+  },
+} satisfies Config;

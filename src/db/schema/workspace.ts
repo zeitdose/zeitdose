@@ -5,7 +5,7 @@ import { createInsertSchema, createSelectSchema } from 'drizzle-valibot'
 import { journalTable } from '~/db/schema/journal'
 import { userTable } from '~/db/schema/user'
 
-const weekdayEnum = pgEnum('weekday', ['Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'])
+export const weekdayEnum = pgEnum('weekday', ['Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'])
 
 export const workspace = pgTable('journals', {
   id: serial('id').primaryKey(),

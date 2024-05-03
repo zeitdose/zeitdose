@@ -15,9 +15,7 @@ export const noteTable = pgTable('notes', {
   authorId: integer('author_id')
     .notNull()
     .references(() => userTable.id, { onDelete: 'cascade' }),
-  journalId: text('journal_id').notNull().references(() => journalTable.id, {
-    onDelete: 'cascade',
-  }),
+  journalId: integer('journal_id').references(() => journalTable.id),
 })
 
 export const notesRelations = relations(noteTable, ({ one }) => ({
