@@ -2,8 +2,8 @@
 
 import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
-import { Argon2id } from 'oslo/password'
 
+import { hash } from '@node-rs/argon2'
 import { redirect } from 'next/navigation'
 import { db } from '~/db/drizzle'
 import { userTable } from '~/db/schema'
@@ -23,7 +23,13 @@ export const signUp = async (username: string, password: string) => {
     }
   }
 
-  const hashedPassword = await new Argon2id().hash(password)
+  const hashedPassword = await hash(password, {
+    // recommended minimum parameters
+    memoryCost: 19456,
+    timeCost: 2,
+    outputLen: 32,
+    parallelism: 1,
+  })
 
   try {
     const result = await db.insert(userTable).values({
@@ -31,6 +37,7 @@ export const signUp = async (username: string, password: string) => {
       hashedPassword,
     }).returning({ id: userTable.id })
 
+    console.log(result)
     const session = await lucia.createSession(result[0].id, {})
     const sessionCookie = lucia.createSessionCookie(session.id)
     cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes)
