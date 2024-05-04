@@ -18,19 +18,18 @@ export const userTable = pgTable('user', {
   reminder: reminderEnum('reminder').default('system'),
   remindBefore: integer('remind_before').default(7),
 
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-  updatedAt: timestamp('updated_at').defaultNow(),
+  createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
+  updatedAt: timestamp('updated_at', { mode: 'date' }).defaultNow(),
   workspaceId: integer('workspace_id').references(() => workspace.id, {
     onDelete: 'cascade',
   }),
 })
 
 export const userRelations = relations(userTable, ({ many, one }) => ({
-  journals: many(journalTable),
-  notes: many(noteTable),
   workspace: one(workspace, {
     fields: [userTable.workspaceId],
     references: [workspace.id],
+    relationName: 'userWorkspace',
   }),
 }))
 

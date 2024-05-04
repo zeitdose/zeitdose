@@ -20,14 +20,9 @@ export const workspace = pgTable('journals', {
   darkTheme: text('dark_heme').default('brown').notNull(),
   fontFamily: text('font_family').default('lato'),
 
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-  updatedAt: timestamp('updated_at').defaultNow(),
+  createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
+  updatedAt: timestamp('updated_at', { mode: 'date' }).defaultNow(),
 })
-
-export const workspaceRelations = relations(workspace, ({ many }) => ({
-  users: many(userTable),
-  journals: many(journalTable),
-}))
 
 export const insertWorkSpaceSchema = createInsertSchema(workspace)
 export const selectWorkSpaceSchema = createSelectSchema(workspace)

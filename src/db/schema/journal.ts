@@ -14,11 +14,8 @@ export const journalTable = pgTable('journals', {
   notesCount: integer('notes_count'),
   isPublic: boolean('is_public').default(false),
 
-  createdAt: timestamp('created_at').defaultNow().notNull(),
-  expiresAt: timestamp('expires_at', {
-    withTimezone: true,
-    mode: 'date',
-  }).notNull(),
+  createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
+  expiresAt: timestamp('expires_at', { mode: 'date' }).notNull(),
   isExpired: boolean('is_expired').default(false),
 
   authorId: integer('author_Id')
@@ -29,7 +26,6 @@ export const journalTable = pgTable('journals', {
 
 export const journalsRelations = relations(journalTable, ({ many, one }) => ({
   notes: many(noteTable),
-  authors: many(userTable),
   creators: one(userTable, {
     fields: [journalTable.creatorId],
     references: [userTable.id],
