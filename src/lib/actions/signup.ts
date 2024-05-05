@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
 
+import { eq } from 'drizzle-orm'
 import { hash } from '@node-rs/argon2'
 import { redirect } from 'next/navigation'
 import { db } from '~/db/drizzle'
@@ -23,6 +24,14 @@ export const signUp = async (username: string, password: string) => {
     }
   }
 
+  const existingUser = await db.select().from(userTable).where(eq(userTable.username, username))
+
+  if (existingUser) {
+    return {
+      error: 'User already exists',
+    }
+  }
+
   const hashedPassword = await hash(password, {
     // recommended minimum parameters
     memoryCost: 19456,
@@ -37,7 +46,6 @@ export const signUp = async (username: string, password: string) => {
       hashedPassword,
     }).returning({ id: userTable.id })
 
-    console.log(result)
     const session = await lucia.createSession(result[0].id, {})
     const sessionCookie = lucia.createSessionCookie(session.id)
     cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes)
