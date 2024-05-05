@@ -2,11 +2,11 @@
 
 import { valibotResolver } from '@hookform/resolvers/valibot'
 import { useForm } from 'react-hook-form'
-import { Input as ValibotInput, maxLength, minLength, object, string } from 'valibot'
+import { Input as ValibotInput, maxLength, minLength, object, string, custom, forward } from 'valibot'
 
+import { Button } from '~/components/ui/button'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form'
 import { Input } from '~/components/ui/input'
-import { Button } from '~/components/ui/button'
 import { signUp } from '~/lib/actions/signup'
 
 import { useToast } from '~/components/ui/use-toast'
@@ -16,8 +16,23 @@ const signUpSchema = object({
     minLength(1, 'Please enter your name'),
     maxLength(255, 'Username must be less than 255 characters'),
   ]),
-  password: string('password is required'),
-})
+  password: string([
+    minLength(1, "Please enter your password."),
+    minLength(6, "You password must have 6 characters or more."),
+  ]),
+  confirmPassword: string([
+    minLength(1, "Please enter your password."),
+    minLength(6, "You password must have 6 characters or more."),
+  ]),
+},[
+  forward(
+    custom(
+      (input) => input.password === input.confirmPassword,
+      'The two passwords do not match.'
+    ),
+    ['confirmPassword']
+  ),
+])
 
 export const SignUpForm = () => {
   const { toast } = useToast()
@@ -27,6 +42,7 @@ export const SignUpForm = () => {
     defaultValues: {
       username: '',
       password: '',
+      confirmPassword: ''
     },
   })
 
@@ -39,6 +55,8 @@ export const SignUpForm = () => {
         title: 'Uh oh! Something went wrong.',
         description: error.message,
       })
+    } finally {
+      form.reset()
     }
   }
 
@@ -78,6 +96,22 @@ export const SignUpForm = () => {
                 </FormControl>
                 <FormDescription>
                   This is your public display name.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+           <FormField
+            control={form.control}
+            name='confirmPassword'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Confirm Password</FormLabel>
+                <FormControl>
+                  <Input placeholder='shadcn' {...field} />
+                </FormControl>
+                <FormDescription>
+                  Please confirm your password.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
