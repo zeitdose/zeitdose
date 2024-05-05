@@ -6,7 +6,8 @@ import { eq } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { Argon2id } from 'oslo/password'
+
+import { verify } from '@node-rs/argon2'
 import { userTable } from '~/db/schema'
 import { lucia } from '~/lib/auth'
 
@@ -25,7 +26,13 @@ export const login = async (username: string, password: string) => {
     }
   }
 
-  const validPassword = await new Argon2id().verify(existingUser[0].hashedPassword, password)
+  const validPassword = await verify(existingUser[0].hashedPassword, password, {
+    memoryCost: 19456,
+    timeCost: 2,
+    outputLen: 32,
+    parallelism: 1,
+  })
+
   if (!validPassword) {
     return {
       error: 'Incorrect username or password',
