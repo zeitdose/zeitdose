@@ -2,10 +2,10 @@
 
 import { valibotResolver } from '@hookform/resolvers/valibot'
 import { useForm } from 'react-hook-form'
-import { Input as ValibotInput, maxLength, minLength, object, string, custom, forward } from 'valibot'
+import { custom, forward, Input as ValibotInput, maxLength, minLength, object, string } from 'valibot'
 
 import { Button } from '~/components/ui/button'
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form'
 import { Input } from '~/components/ui/input'
 import { signUp } from '~/lib/actions/signup'
 
@@ -17,20 +17,20 @@ const signUpSchema = object({
     maxLength(255, 'Username must be less than 255 characters'),
   ]),
   password: string([
-    minLength(1, "Please enter your password."),
-    minLength(6, "You password must have 6 characters or more."),
+    minLength(1, 'Please enter your password.'),
+    minLength(6, 'You password must have 6 characters or more.'),
   ]),
   confirmPassword: string([
-    minLength(1, "Please enter your password."),
-    minLength(6, "You password must have 6 characters or more."),
+    minLength(1, 'Please enter your password.'),
+    minLength(6, 'You password must have 6 characters or more.'),
   ]),
-},[
+}, [
   forward(
     custom(
       (input) => input.password === input.confirmPassword,
-      'The two passwords do not match.'
+      'The two passwords do not match.',
     ),
-    ['confirmPassword']
+    ['confirmPassword'],
   ),
 ])
 
@@ -42,29 +42,27 @@ export const SignUpForm = () => {
     defaultValues: {
       username: '',
       password: '',
-      confirmPassword: ''
+      confirmPassword: '',
     },
   })
 
   const onSubmit = async (values: ValibotInput<typeof signUpSchema>) => {
-    try {
-      await signUp(values.username, values.password)
-    } catch (err) {
-      const error = err as Error
+    const response = await signUp(values.username, values.password)
+    if (response.error) {
       toast({
         title: 'Uh oh! Something went wrong.',
-        description: error.message,
+        description: response.error,
       })
-    } finally {
-      form.reset()
     }
   }
 
   return (
     <>
       <div>
-        <h2>Sign Up</h2>
-        <small>Start your journey here.</small>
+        <h2 className='scroll-m-20 pb-2 text-3xl tracking-tight first:mt-0 font-bold'>
+          Sign Up
+        </h2>
+        <small className='text-sand-11'>Start your journey here.</small>
       </div>
 
       <Form {...form}>
@@ -76,11 +74,8 @@ export const SignUpForm = () => {
               <FormItem>
                 <FormLabel>Username</FormLabel>
                 <FormControl>
-                  <Input placeholder='shadcn' {...field} />
+                  <Input placeholder='Your Name' className='rounded-xl h-11' {...field} />
                 </FormControl>
-                <FormDescription>
-                  This is your public display name.
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -92,32 +87,26 @@ export const SignUpForm = () => {
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input placeholder='shadcn' {...field} />
+                  <Input placeholder='Your password.' className='rounded-xl h-11' {...field} />
                 </FormControl>
-                <FormDescription>
-                  This is your public display name.
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-           <FormField
+          <FormField
             control={form.control}
             name='confirmPassword'
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Confirm Password</FormLabel>
                 <FormControl>
-                  <Input placeholder='shadcn' {...field} />
+                  <Input placeholder='Repeat your password to confirm.' className='rounded-xl h-11' {...field} />
                 </FormControl>
-                <FormDescription>
-                  Please confirm your password.
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type='submit'>Submit</Button>
+          <Button type='submit' className='w-full rounded-xl h-11' size={'lg'}>Sign Up</Button>
         </form>
       </Form>
     </>

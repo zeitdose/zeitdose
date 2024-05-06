@@ -7,6 +7,11 @@
 @import "@radix-ui/colors/slate-dark";
 @import "@radix-ui/colors/slate-dark-alpha";
 
+@import "@radix-ui/colors/sand";
+@import "@radix-ui/colors/sand-alpha";
+@import "@radix-ui/colors/sand-dark";
+@import "@radix-ui/colors/sand-dark-alpha";
+
 @layer base {
   :root {
     --background: 0 0% 100%;
