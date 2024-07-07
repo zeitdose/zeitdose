@@ -67,7 +67,7 @@ importers:
         version: 0.31.2(@neondatabase/serverless@0.9.4)(@types/pg@8.11.6)(@types/react@18.3.3)(@vercel/postgres@0.9.0)(pg@8.12.0)(react@19.0.0-rc-f994737d14-20240522)
       drizzle-valibot:
         specifier: ^0.2.0
-        version: 0.2.0(drizzle-orm@0.31.2(@neondatabase/serverless@0.9.4)(@types/pg@8.11.6)(@types/react@18.3.3)(@vercel/postgres@0.9.0)(pg@8.12.0)(react@19.0.0-rc-f994737d14-20240522))(valibot@0.36.0)
+        version: 0.2.0(drizzle-orm@0.31.2(@neondatabase/serverless@0.9.4)(@types/pg@8.11.6)(@types/react@18.3.3)(@vercel/postgres@0.9.0)(pg@8.12.0)(react@19.0.0-rc-f994737d14-20240522))(valibot@0.33.3)
       lucia:
         specifier: ^3.2.0
         version: 3.2.0
@@ -99,8 +99,8 @@ importers:
         specifier: ^0.2.4
         version: 0.2.4
       valibot:
-        specifier: ^0.36.0
-        version: 0.36.0
+        specifier: ^0.33.0
+        version: 0.33.3
     devDependencies:
       '@types/node':
         specifier: ^20.14.10
@@ -3771,8 +3771,8 @@ packages:
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
-  valibot@0.36.0:
-    resolution: {integrity: sha512-CjF1XN4sUce8sBK9TixrDqFM7RwNkuXdJu174/AwmQUB62QbCQADg5lLe8ldBalFgtj1uKj+pKwDJiNo4Mn+eQ==}
+  valibot@0.33.3:
+    resolution: {integrity: sha512-/fuY1DlX8uiQ7aphlzrrI2DbG0YJk84JMgvz2qKpUIdXRNsS53varfo4voPjSrjUr5BSV2K0miSEJUOlA5fQFg==}
 
   webidl-conversions@3.0.1:
     resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}
@@ -5817,10 +5817,10 @@ snapshots:
       pg: 8.12.0
       react: 19.0.0-rc-f994737d14-20240522
 
-  drizzle-valibot@0.2.0(drizzle-orm@0.31.2(@neondatabase/serverless@0.9.4)(@types/pg@8.11.6)(@types/react@18.3.3)(@vercel/postgres@0.9.0)(pg@8.12.0)(react@19.0.0-rc-f994737d14-20240522))(valibot@0.36.0):
+  drizzle-valibot@0.2.0(drizzle-orm@0.31.2(@neondatabase/serverless@0.9.4)(@types/pg@8.11.6)(@types/react@18.3.3)(@vercel/postgres@0.9.0)(pg@8.12.0)(react@19.0.0-rc-f994737d14-20240522))(valibot@0.33.3):
     dependencies:
       drizzle-orm: 0.31.2(@neondatabase/serverless@0.9.4)(@types/pg@8.11.6)(@types/react@18.3.3)(@vercel/postgres@0.9.0)(pg@8.12.0)(react@19.0.0-rc-f994737d14-20240522)
-      valibot: 0.36.0
+      valibot: 0.33.3
 
   eastasianwidth@0.2.0: {}
 
@@ -7505,7 +7505,7 @@ snapshots:
 
   util-deprecate@1.0.2: {}
 
-  valibot@0.36.0: {}
+  valibot@0.33.3: {}
 
   webidl-conversions@3.0.1: {}
 

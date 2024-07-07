@@ -2,7 +2,7 @@
 
 import { valibotResolver } from '@hookform/resolvers/valibot'
 import { useForm } from 'react-hook-form'
-import { custom, forward, Input as ValibotInput, maxLength, minLength, object, string } from 'valibot'
+import { InferInput as ValibotInput, maxLength, minLength, object, string, pipe, forward, partialCheck } from 'valibot'
 
 import { Button } from '~/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form'
@@ -11,28 +11,28 @@ import { signUp } from '~/lib/actions/signup'
 
 import { useToast } from '~/components/ui/use-toast'
 
-const signUpSchema = object({
-  username: string('username is required', [
-    minLength(1, 'Please enter your name'),
-    maxLength(255, 'Username must be less than 255 characters'),
-  ]),
-  password: string([
-    minLength(1, 'Please enter your password.'),
-    minLength(6, 'You password must have 6 characters or more.'),
-  ]),
-  confirmPassword: string([
-    minLength(1, 'Please enter your password.'),
-    minLength(6, 'You password must have 6 characters or more.'),
-  ]),
-}, [
+
+const checkPasswordMatch = (oldPassword: string, confirmPassword: string) =>
+  oldPassword === confirmPassword
+
+const signUpSchema = pipe(object({
+  // username: string('username is required', [
+  //   minLength(1, 'Please enter your name'),
+  //   maxLength(255, 'Username must be less than 255 characters'),
+  // ]),
+  username: pipe(string('username is required'), minLength(1, 'Please enter your name'), maxLength(255, 'Username must be less than 255 characters')),
+  password: pipe(string('Please enter your password.'), minLength(6, 'You password must have 6 characters or more')),
+  confirmPassword: pipe(string('Please enter your password.'), minLength(6, 'You password must have 6 characters or more')),
+}),
   forward(
-    custom(
+    partialCheck(
+      [['password'], ['confirmPassword']],
       (input) => input.password === input.confirmPassword,
       'The two passwords do not match.',
     ),
     ['confirmPassword'],
-  ),
-])
+  )
+)
 
 export const SignUpForm = () => {
   const { toast } = useToast()

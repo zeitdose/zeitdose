@@ -6,7 +6,7 @@
   ],
   "env": {
     "DEVBOX_COREPACK_ENABLED": "true",
-    "PNPM_HOME":               "$HOME/.local/share/pnpm"
+    "PNPM_HOME": "$HOME/.local/share/pnpm"
   },
   "shell": {
     "init_hook": [
@@ -14,7 +14,7 @@
       "psql < setup_db.sql"
     ],
     "scripts": {
-      "fmt":     "dprint check",
+      "fmt": "dprint check",
       "fmt:fix": "dprint fmt"
     }
   }

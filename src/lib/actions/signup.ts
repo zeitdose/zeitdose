@@ -3,8 +3,8 @@
 import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
 
-import { eq } from 'drizzle-orm'
 import { hash } from '@node-rs/argon2'
+import { eq } from 'drizzle-orm'
 import { redirect } from 'next/navigation'
 import { db } from '~/db/drizzle'
 import { userTable } from '~/db/schema'
