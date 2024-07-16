@@ -11,16 +11,21 @@ import { userTable } from '~/db/schema'
 import { lucia } from '~/lib/auth'
 import { PostgreSQLError } from '~/types/error'
 
-export const signUp = async (username: string, password: string) => {
+export const signUp = async (preState: any, formData: FormData) => {
+  const { password, username } = {
+    password: formData.get('password'),
+    username: formData.get('username'),
+  }
+
   if (typeof password !== 'string' || password.length < 6 || password.length > 255) {
     return {
-      error: 'Invalid password',
+      message: 'Invalid password',
     }
   }
 
-  if (username.length < 2) {
+  if (typeof username !== 'string' || username.length < 2 || !username) {
     return {
-      error: 'Username must be at least 2 characters',
+      message: 'Username must be at least 2 characters',
     }
   }
 
@@ -28,7 +33,7 @@ export const signUp = async (username: string, password: string) => {
 
   if (existingUser) {
     return {
-      error: 'User already exists',
+      message: 'User already exists',
     }
   }
 
@@ -54,11 +59,15 @@ export const signUp = async (username: string, password: string) => {
       const pgError = e as PostgreSQLError
       if (pgError.code === '23505') {
         return {
-          error: 'Username is already in use',
+          message: 'Username is already in use',
         }
+      }
+    } else {
+      return {
+        message: 'An error occurred when creating your account',
       }
     }
   }
   revalidatePath('/')
-  return redirect('/')
+  redirect('/')
 }

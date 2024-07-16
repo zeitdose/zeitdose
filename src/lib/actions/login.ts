@@ -11,10 +11,21 @@ import { verify } from '@node-rs/argon2'
 import { userTable } from '~/db/schema'
 import { lucia } from '~/lib/auth'
 
-export const login = async (username: string, password: string) => {
+export const login = async (preState: any, formData: FormData) => {
+  const { password, username } = {
+    password: formData.get('password'),
+    username: formData.get('username'),
+  }
+
   if (typeof password !== 'string' || password.length < 6 || password.length > 255) {
     return {
-      error: 'Invalid password',
+      message: 'Invalid password',
+    }
+  }
+
+  if (typeof username !== 'string' || username.length < 2 || !username) {
+    return {
+      message: 'Username must be at least 2 characters',
     }
   }
 
@@ -22,7 +33,7 @@ export const login = async (username: string, password: string) => {
 
   if (!existingUser) {
     return {
-      error: 'User not found',
+      message: 'User not found',
     }
   }
 
@@ -35,7 +46,7 @@ export const login = async (username: string, password: string) => {
 
   if (!validPassword) {
     return {
-      error: 'Incorrect username or password',
+      message: 'Incorrect username or password',
     }
   }
 
@@ -43,5 +54,5 @@ export const login = async (username: string, password: string) => {
   const sessionCookie = lucia.createSessionCookie(session.id)
   cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes)
   revalidatePath('/')
-  return redirect('/')
+  redirect('/')
 }

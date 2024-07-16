@@ -1,8 +1,9 @@
 'use client'
 
 import { valibotResolver } from '@hookform/resolvers/valibot'
+import { useActionState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { InferInput as ValibotInput, maxLength, minLength, object, string, pipe } from 'valibot'
+import { InferInput as ValibotInput, maxLength, minLength, object, pipe, string } from 'valibot'
 
 import { Button } from '~/components/ui/button'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form'
@@ -12,11 +13,11 @@ import { login } from '~/lib/actions/login'
 import { useToast } from '~/components/ui/use-toast'
 
 const loginSchema = object({
-  // username: string('username is required', [
-  //   minLength(1, 'Please enter your name'),
-  //   maxLength(255, 'Username must be less than 255 characters'),
-  // ]),
-  username: pipe(string('username is required'), minLength(1, 'Please enter your name'), maxLength(255, 'Username must be less than 255 characters')),
+  username: pipe(
+    string('username is required'),
+    minLength(1, 'Please enter your name'),
+    maxLength(255, 'Username must be less than 255 characters'),
+  ),
   password: string('password is required'),
 })
 
@@ -31,15 +32,16 @@ export const LoginForm = () => {
     },
   })
 
-  const onSubmit = async (values: ValibotInput<typeof loginSchema>) => {
-    const response = await login(values.username, values.password)
-    if (response.error) {
+  const [state, formAction] = useActionState(login, null)
+
+  useEffect(() => {
+    if (state?.message) {
       toast({
-        title: 'Uh oh! Something went wrong.',
-        description: response.error,
+        title: 'Error',
+        description: state.message,
       })
     }
-  }
+  }, [state, toast])
 
   return (
     <>
@@ -49,7 +51,19 @@ export const LoginForm = () => {
       </div>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className='w-2/3 space-y-6'>
+        <form
+          action={formAction}
+          onSubmit={async (e) => {
+            if (!form.formState.isValid) {
+              e.preventDefault()
+              await form.trigger()
+              return
+            }
+
+            e.currentTarget?.requestSubmit()
+          }}
+          className='w-2/3 space-y-6'
+        >
           <FormField
             control={form.control}
             name='username'
