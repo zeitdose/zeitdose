@@ -1,4 +1,4 @@
-import MillionLint from '@million/lint'
+// import MillionLint from '@million/lint'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -8,10 +8,9 @@ const nextConfig = {
     return config
   },
   experimental: {
-    reactCompiler: true
+    reactCompiler: true,
   },
-  serverExternalPackages: ['oslo', '@node-rs/argon2']
+  serverExternalPackages: ['oslo', '@node-rs/argon2'],
 }
-export default MillionLint.next({
-  rsc: true,
-})(nextConfig)
+
+export default nextConfig
