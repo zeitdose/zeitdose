@@ -8,8 +8,6 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "dprint check",
-    "format:fix": "dprint fmt",
     "db:studio": "drizzle-kit studio",
     "db:push": "drizzle-kit push:pg"
   },
@@ -31,7 +29,6 @@
     "babel-plugin-react-compiler": "0.0.0-experimental-696af53-20240625",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
-    "dprint": "^0.47.1",
     "drizzle-orm": "^0.31.2",
     "drizzle-valibot": "^0.2.0",
     "lucia": "^3.2.0",

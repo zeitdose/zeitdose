@@ -1,7 +1,6 @@
 {
   "packages": [
     "nodejs@latest",
-    "dprint@latest",
     "postgresql@latest"
   ],
   "env": {
@@ -12,10 +11,6 @@
     "init_hook": [
       "echo 'Welcome to devbox!' > /dev/null",
       "psql < setup_db.sql"
-    ],
-    "scripts": {
-      "fmt": "dprint check",
-      "fmt:fix": "dprint fmt"
-    }
+    ]
   }
 }
