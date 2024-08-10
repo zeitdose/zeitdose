@@ -1,13 +1,12 @@
 'use server'
 
-import { db } from '~/db/drizzle'
-
+import { verify } from '@node-rs/argon2'
 import { eq } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
-import { verify } from '@node-rs/argon2'
+import { db } from '~/db/drizzle'
 import { userTable } from '~/db/schema'
 import { lucia } from '~/lib/auth'
 
@@ -39,9 +38,9 @@ export const login = async (preState: any, formData: FormData) => {
 
   const validPassword = await verify(existingUser[0].hashedPassword, password, {
     memoryCost: 19456,
-    timeCost: 2,
     outputLen: 32,
     parallelism: 1,
+    timeCost: 2,
   })
 
   if (!validPassword) {

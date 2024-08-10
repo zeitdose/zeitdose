@@ -5,18 +5,18 @@
     "@importantimport/tsconfig/parts/jsx-preserve.json"
   ],
   "compilerOptions": {
-    "esModuleInterop": true,
     "incremental": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
     "paths": {
       "~/*": [
         "./src/*"
       ]
     },
+    "esModuleInterop": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
   "include": [
     "next-env.d.ts",

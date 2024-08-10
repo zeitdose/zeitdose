@@ -1,12 +1,12 @@
-export type DatabaseUser = {
-  id: number
-  username: string
-  email?: string
+export interface DatabaseUser {
   avatarUrl?: string
-  hashedPassword?: string
-  reminder: 'system' | 'email' | 'telegram' | 'matrix'
-  remindBefore: number
   createdAt: Date
+  email?: string
+  hashedPassword?: string
+  id: number
+  remindBefore: number
+  reminder: 'email' | 'matrix' | 'system' | 'telegram'
   updatedAt: Date
+  username: string
   workspaceId: number
 }

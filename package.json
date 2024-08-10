@@ -3,14 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "build": "next build",
+    "db:push": "drizzle-kit push:pg",
+    "db:studio": "drizzle-kit studio",
     "dev": "next dev",
     "dev:turbo": "next dev --turbo",
-    "build": "next build",
-    "start": "next start",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "db:studio": "drizzle-kit studio",
-    "db:push": "drizzle-kit push:pg"
+    "start": "next start"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",

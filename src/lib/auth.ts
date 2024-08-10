@@ -1,12 +1,14 @@
+import type { Session, User } from 'lucia'
+
 import { DrizzlePostgreSQLAdapter } from '@lucia-auth/adapter-drizzle'
 import { Lucia } from 'lucia'
 import { cookies } from 'next/headers'
 import { cache } from 'react'
-import { db } from '~/db/drizzle'
 
-import type { Session, User } from 'lucia'
-import { sessionTable, userTable } from '~/db/schema'
 import type { DatabaseUser } from '~/types/user'
+
+import { db } from '~/db/drizzle'
+import { sessionTable, userTable } from '~/db/schema'
 
 // import { webcrypto } from "crypto";
 // globalThis.crypto = webcrypto as Crypto;
@@ -14,25 +16,25 @@ import type { DatabaseUser } from '~/types/user'
 export const adapter = new DrizzlePostgreSQLAdapter(db, sessionTable, userTable)
 
 export const lucia = new Lucia(adapter, {
-  sessionCookie: {
-    attributes: {
-      secure: process.env.NODE_ENV === 'production',
-    },
-  },
   getUserAttributes: (attributes) => {
     return {
       username: attributes.username,
     }
   },
+  sessionCookie: {
+    attributes: {
+      secure: process.env.NODE_ENV === 'production',
+    },
+  },
 })
 
 export const validateRequest = cache(
-  async (): Promise<{ user: User; session: Session } | { user: null; session: null }> => {
+  async (): Promise<{ session: null, user: null } | { session: Session, user: User }> => {
     const sessionId = cookies().get(lucia.sessionCookieName)?.value ?? null
     if (!sessionId) {
       return {
-        user: null,
         session: null,
+        user: null,
       }
     }
 
@@ -47,15 +49,16 @@ export const validateRequest = cache(
         const sessionCookie = lucia.createBlankSessionCookie()
         cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes)
       }
-    } catch {}
+    }
+    catch {}
     return result
   },
 )
 
 declare module 'lucia' {
   interface Register {
+    DatabaseUserAttributes: Omit<DatabaseUser, 'id'>
     Lucia: typeof Lucia
     UserId: number
-    DatabaseUserAttributes: Omit<DatabaseUser, 'id'>
   }
 }
