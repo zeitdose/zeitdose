@@ -1,4 +1,5 @@
 import { defineConfig } from 'drizzle-kit'
+import process from 'node:process'
 
 import './src/drizzle/envConfig'
 

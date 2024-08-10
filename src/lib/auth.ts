@@ -3,6 +3,7 @@ import type { Session, User } from 'lucia'
 import { DrizzlePostgreSQLAdapter } from '@lucia-auth/adapter-drizzle'
 import { Lucia } from 'lucia'
 import { cookies } from 'next/headers'
+import process from 'node:process'
 import { cache } from 'react'
 
 import type { DatabaseUser } from '~/types/user'
