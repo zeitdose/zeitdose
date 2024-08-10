@@ -5,7 +5,7 @@ export const weekdayEnum = pgEnum('weekday', ['Mon', 'Tues', 'Wed', 'Thur', 'Fri
 
 export const workspace = pgTable('journals', {
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
-  darkTheme: text('dark_heme').default('brown').notNull(),
+  darkTheme: text('dark_theme').default('brown').notNull(),
   favicon: text('favicon').default(''),
   fontFamily: text('font_family').default('lato'),
 
