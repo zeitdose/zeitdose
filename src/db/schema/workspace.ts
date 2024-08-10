@@ -12,7 +12,7 @@ export const workspace = pgTable('journals', {
   id: serial('id').primaryKey(),
   language: text('language').default('en').notNull(),
 
-  lightTheme: text('light_heme').default('brown').notNull(),
+  lightTheme: text('light_theme').default('brown').notNull(),
   name: text('name').default('zeitdose'),
   startWeekOn: weekdayEnum('start_week_on').default('Mon').notNull(),
 
