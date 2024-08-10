@@ -47,6 +47,7 @@
     "valibot": "^0.33.0"
   },
   "devDependencies": {
+    "@importantimport/tsconfig": "^0.1.1",
     "@types/node": "^20.14.10",
     "@types/pg": "^8.11.6",
     "@types/react": "^18.3.3",
