@@ -1,15 +1,17 @@
 import type { Config } from 'tailwindcss'
-import animate from 'tailwindcss-animate'
+
 import { fontFamily } from 'tailwindcss/defaultTheme'
+import animate from 'tailwindcss-animate'
 
 export default {
-  darkMode: ['class'],
   content: [
     './pages/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
   ],
+  darkMode: ['class'],
+  plugins: [animate],
   prefix: '',
   theme: {
     container: {
@@ -20,39 +22,62 @@ export default {
       },
     },
     extend: {
+      animation: {
+        'accordion-down': 'accordion-down 0.2s ease-out',
+        'accordion-up': 'accordion-up 0.2s ease-out',
+      },
+      borderRadius: {
+        lg: 'var(--radius)',
+        md: 'calc(var(--radius) - 2px)',
+        sm: 'calc(var(--radius) - 4px)',
+      },
       colors: {
-        border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
-        primary: {
-          DEFAULT: 'hsl(var(--primary))',
-          foreground: 'hsl(var(--primary-foreground))',
+        accent: {
+          DEFAULT: 'hsl(var(--accent))',
+          foreground: 'hsl(var(--accent-foreground))',
         },
-        secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))',
+        background: 'hsl(var(--background))',
+        border: 'hsl(var(--border))',
+        card: {
+          DEFAULT: 'hsl(var(--card))',
+          foreground: 'hsl(var(--card-foreground))',
         },
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
           foreground: 'hsl(var(--destructive-foreground))',
         },
+        foreground: 'hsl(var(--foreground))',
+        input: 'hsl(var(--input))',
         muted: {
           DEFAULT: 'hsl(var(--muted))',
           foreground: 'hsl(var(--muted-foreground))',
-        },
-        accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))',
         },
         popover: {
           DEFAULT: 'hsl(var(--popover))',
           foreground: 'hsl(var(--popover-foreground))',
         },
-        card: {
-          DEFAULT: 'hsl(var(--card))',
-          foreground: 'hsl(var(--card-foreground))',
+        primary: {
+          DEFAULT: 'hsl(var(--primary))',
+          foreground: 'hsl(var(--primary-foreground))',
+        },
+        ring: 'hsl(var(--ring))',
+        sand: {
+          1: 'var(--sand-1)',
+          2: 'var(--sand-2)',
+          3: 'var(--sand-3)',
+          4: 'var(--sand-4)',
+          5: 'var(--sand-5)',
+          6: 'var(--sand-6)',
+          7: 'var(--sand-7)',
+          8: 'var(--sand-8)',
+          9: 'var(--sand-9)',
+          10: 'var(--sand-10)',
+          11: 'var(--sand-11)',
+          12: 'var(--sand-12)',
+        },
+        secondary: {
+          DEFAULT: 'hsl(var(--secondary))',
+          foreground: 'hsl(var(--secondary-foreground))',
         },
         slate: {
           1: 'var(--slate-1)',
@@ -82,25 +107,9 @@ export default {
           11: 'var(--slate-a11)',
           12: 'var(--slate-a12)',
         },
-        'sand': {
-          1: 'var(--sand-1)',
-          2: 'var(--sand-2)',
-          3: 'var(--sand-3)',
-          4: 'var(--sand-4)',
-          5: 'var(--sand-5)',
-          6: 'var(--sand-6)',
-          7: 'var(--sand-7)',
-          8: 'var(--sand-8)',
-          9: 'var(--sand-9)',
-          10: 'var(--sand-10)',
-          11: 'var(--sand-11)',
-          12: 'var(--sand-12)',
-        },
       },
-      borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
+      fontFamily: {
+        sans: ['var(--font-sans)', ...fontFamily.sans],
       },
       keyframes: {
         'accordion-down': {
@@ -112,14 +121,6 @@ export default {
           to: { height: '0' },
         },
       },
-      animation: {
-        'accordion-down': 'accordion-down 0.2s ease-out',
-        'accordion-up': 'accordion-up 0.2s ease-out',
-      },
-      fontFamily: {
-        sans: ['var(--font-sans)', ...fontFamily.sans],
-      },
     },
   },
-  plugins: [animate],
 } satisfies Config

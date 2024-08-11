@@ -1,15 +1,16 @@
 'use server'
 
-import { revalidatePath } from 'next/cache'
-import { cookies } from 'next/headers'
-
 import { hash } from '@node-rs/argon2'
 import { eq } from 'drizzle-orm'
+import { revalidatePath } from 'next/cache'
+import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
+
+import type { PostgreSQLError } from '~/types/error'
+
 import { db } from '~/db/drizzle'
 import { userTable } from '~/db/schema'
 import { lucia } from '~/lib/auth'
-import { PostgreSQLError } from '~/types/error'
 
 export const signUp = async (preState: any, formData: FormData) => {
   const { password, username } = {
@@ -40,21 +41,22 @@ export const signUp = async (preState: any, formData: FormData) => {
   const hashedPassword = await hash(password, {
     // recommended minimum parameters
     memoryCost: 19456,
-    timeCost: 2,
     outputLen: 32,
     parallelism: 1,
+    timeCost: 2,
   })
 
   try {
     const result = await db.insert(userTable).values({
-      username,
       hashedPassword,
+      username,
     }).returning({ id: userTable.id })
 
     const session = await lucia.createSession(result[0].id, {})
     const sessionCookie = lucia.createSessionCookie(session.id)
     cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes)
-  } catch (e) {
+  }
+  catch (e) {
     if (e instanceof Error) {
       const pgError = e as PostgreSQLError
       if (pgError.code === '23505') {
@@ -62,7 +64,8 @@ export const signUp = async (preState: any, formData: FormData) => {
           message: 'Username is already in use',
         }
       }
-    } else {
+    }
+    else {
       return {
         message: 'An error occurred when creating your account',
       }

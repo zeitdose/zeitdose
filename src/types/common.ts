@@ -1,3 +1,3 @@
 export interface ActionResult {
-  error: string | null
+  error: null | string
 }

@@ -1,0 +1,29 @@
+{
+  "extends": [
+    "@importantimport/tsconfig/app.json",
+    "@importantimport/tsconfig/parts/check-js.json",
+    "@importantimport/tsconfig/parts/jsx-preserve.json"
+  ],
+  "compilerOptions": {
+    "incremental": true,
+    "paths": {
+      "~/*": [
+        "./src/*"
+      ]
+    },
+    "esModuleInterop": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": [
+    "src",
+    "next-env.d.ts",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

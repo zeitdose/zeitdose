@@ -1,44 +1,45 @@
 'use client'
 
+import type {
+  InferInput as ValibotInput,
+} from 'valibot'
+
 import { valibotResolver } from '@hookform/resolvers/valibot'
 import { useActionState, useEffect, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import {
   forward,
-  InferInput as ValibotInput,
   maxLength,
   minLength,
   object,
   partialCheck,
   pipe,
   string,
-  value,
 } from 'valibot'
 
 import { Button } from '~/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '~/components/ui/form'
 import { Input } from '~/components/ui/input'
-import { signUp } from '~/lib/actions/signup'
-
 import { useToast } from '~/components/ui/use-toast'
+import { signUp } from '~/lib/actions/signup'
 
 const signUpSchema = pipe(
   object({
+    confirmPassword: pipe(
+      string('Please enter your password.'),
+      minLength(6, 'You password must have 6 characters or more'),
+    ),
+    password: pipe(string('Please enter your password.'), minLength(6, 'You password must have 6 characters or more')),
     username: pipe(
       string('username is required'),
       minLength(1, 'Please enter your name'),
       maxLength(255, 'Username must be less than 255 characters'),
     ),
-    password: pipe(string('Please enter your password.'), minLength(6, 'You password must have 6 characters or more')),
-    confirmPassword: pipe(
-      string('Please enter your password.'),
-      minLength(6, 'You password must have 6 characters or more'),
-    ),
   }),
   forward(
     partialCheck(
       [['password'], ['confirmPassword']],
-      (input) => input.password === input.confirmPassword,
+      input => input.password === input.confirmPassword,
       'The two passwords do not match.',
     ),
     ['confirmPassword'],
@@ -50,12 +51,12 @@ export const SignUpForm = () => {
 
   const [state, formAction] = useActionState(signUp, null)
   const form = useForm<ValibotInput<typeof signUpSchema>>({
-    resolver: valibotResolver(signUpSchema),
     defaultValues: {
-      username: '',
-      password: '',
       confirmPassword: '',
+      password: '',
+      username: '',
     },
+    resolver: valibotResolver(signUpSchema),
   })
   const formRef = useRef(null)
 
@@ -80,8 +81,8 @@ export const SignUpForm = () => {
   useEffect(() => {
     if (state?.message) {
       toast({
-        title: 'Error',
         description: state.message,
+        title: 'Error',
       })
     }
   }, [state, toast])
@@ -89,25 +90,25 @@ export const SignUpForm = () => {
   return (
     <>
       <div>
-        <h2 className='scroll-m-20 pb-2 text-3xl tracking-tight first:mt-0 font-bold'>
+        <h2 className="scroll-m-20 pb-2 text-3xl tracking-tight first:mt-0 font-bold">
           Sign Up
         </h2>
-        <small className='text-sand-11'>Start your journey here.</small>
+        <small className="text-sand-11">Start your journey here.</small>
       </div>
 
       <Form {...form}>
         <form
+          className="w-2/3 space-y-6"
           onSubmit={form.handleSubmit(onSubmit)}
-          className='w-2/3 space-y-6'
         >
           <FormField
             control={form.control}
-            name='username'
+            name="username"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Username</FormLabel>
                 <FormControl>
-                  <Input placeholder='Your Name' className='rounded-xl h-11' {...field} />
+                  <Input className="rounded-xl h-11" placeholder="Your Name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -115,12 +116,12 @@ export const SignUpForm = () => {
           />
           <FormField
             control={form.control}
-            name='password'
+            name="password"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                  <Input placeholder='Your password.' className='rounded-xl h-11' {...field} type='password' />
+                  <Input className="rounded-xl h-11" placeholder="Your password." {...field} type="password" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -128,23 +129,23 @@ export const SignUpForm = () => {
           />
           <FormField
             control={form.control}
-            name='confirmPassword'
+            name="confirmPassword"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Confirm Password</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder='Repeat your password to confirm.'
-                    className='rounded-xl h-11'
+                    className="rounded-xl h-11"
+                    placeholder="Repeat your password to confirm."
                     {...field}
-                    type='password'
+                    type="password"
                   />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type='submit' className='w-full rounded-xl h-11' size={'lg'}>Sign Up</Button>
+          <Button className="w-full rounded-xl h-11" size="lg" type="submit">Sign Up</Button>
         </form>
       </Form>
     </>
