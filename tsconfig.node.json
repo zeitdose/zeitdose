@@ -1,4 +1,14 @@
 {
-  "extends": "@importantimport/tsconfig/node.json",
-  "include": ["*.config.ts", "*.config.js", "*.config.mjs"]
+  "compilerOptions": {
+    "composite": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "noEmit": false
+  },
+  "include": [
+    "*.config.ts",
+    "*.config.js",
+    "*.config.mjs",
+    "drizzle.config.ts"
+  ]
 }

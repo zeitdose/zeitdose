@@ -2,7 +2,6 @@
 
 import { verify } from '@node-rs/argon2'
 import { eq } from 'drizzle-orm'
-import { revalidatePath } from 'next/cache'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
@@ -19,39 +18,39 @@ export const login = async (preState: any, formData: FormData) => {
   if (typeof password !== 'string' || password.length < 6 || password.length > 255) {
     return {
       message: 'Invalid password',
+      success: false,
     }
   }
 
   if (typeof username !== 'string' || username.length < 2 || !username) {
     return {
-      message: 'Username must be at least 2 characters',
+      message: 'Invalid username',
+      success: false,
     }
   }
 
   const existingUser = await db.select().from(userTable).where(eq(userTable.username, username))
 
-  if (!existingUser) {
+  if (!existingUser || !existingUser[0]) {
     return {
       message: 'User not found',
+      success: false,
     }
   }
 
-  const validPassword = await verify(existingUser[0].hashedPassword, password, {
-    memoryCost: 19456,
-    outputLen: 32,
-    parallelism: 1,
-    timeCost: 2,
-  })
+  const user = existingUser[0]
+  const validPassword = await verify(user.hashedPassword, password)
 
   if (!validPassword) {
     return {
-      message: 'Incorrect username or password',
+      message: 'Incorrect password',
+      success: false,
     }
   }
 
-  const session = await lucia.createSession(existingUser[0].id, {})
+  const session = await lucia.createSession(user.id, {})
   const sessionCookie = lucia.createSessionCookie(session.id)
   cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes)
-  revalidatePath('/')
-  redirect('/')
+
+  return redirect('/')
 }

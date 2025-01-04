@@ -21,12 +21,14 @@ export const signUp = async (preState: any, formData: FormData) => {
   if (typeof password !== 'string' || password.length < 6 || password.length > 255) {
     return {
       message: 'Invalid password',
+      success: false,
     }
   }
 
   if (typeof username !== 'string' || username.length < 2 || !username) {
     return {
       message: 'Username must be at least 2 characters',
+      success: false,
     }
   }
 
@@ -35,6 +37,7 @@ export const signUp = async (preState: any, formData: FormData) => {
   if (existingUser) {
     return {
       message: 'User already exists',
+      success: false,
     }
   }
 
@@ -62,15 +65,15 @@ export const signUp = async (preState: any, formData: FormData) => {
       if (pgError.code === '23505') {
         return {
           message: 'Username is already in use',
+          success: false,
         }
       }
     }
-    else {
-      return {
-        message: 'An error occurred when creating your account',
-      }
+    return {
+      message: 'An error occurred when creating your account',
+      success: false,
     }
   }
   revalidatePath('/')
-  redirect('/')
+  return redirect('/')
 }

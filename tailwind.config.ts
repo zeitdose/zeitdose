@@ -2,6 +2,7 @@ import type { Config } from 'tailwindcss'
 
 import { fontFamily } from 'tailwindcss/defaultTheme'
 import animate from 'tailwindcss-animate'
+import tailwindcssRadixColors from 'tailwindcss-radix-colors'
 
 export default {
   content: [
@@ -11,7 +12,7 @@ export default {
     './src/**/*.{ts,tsx}',
   ],
   darkMode: ['class'],
-  plugins: [animate],
+  plugins: [animate, tailwindcssRadixColors],
   prefix: '',
   theme: {
     container: {
@@ -61,51 +62,19 @@ export default {
           foreground: 'hsl(var(--primary-foreground))',
         },
         ring: 'hsl(var(--ring))',
-        sand: {
-          1: 'var(--sand-1)',
-          2: 'var(--sand-2)',
-          3: 'var(--sand-3)',
-          4: 'var(--sand-4)',
-          5: 'var(--sand-5)',
-          6: 'var(--sand-6)',
-          7: 'var(--sand-7)',
-          8: 'var(--sand-8)',
-          9: 'var(--sand-9)',
-          10: 'var(--sand-10)',
-          11: 'var(--sand-11)',
-          12: 'var(--sand-12)',
-        },
         secondary: {
           DEFAULT: 'hsl(var(--secondary))',
           foreground: 'hsl(var(--secondary-foreground))',
         },
-        slate: {
-          1: 'var(--slate-1)',
-          2: 'var(--slate-2)',
-          3: 'var(--slate-3)',
-          4: 'var(--slate-4)',
-          5: 'var(--slate-5)',
-          6: 'var(--slate-6)',
-          7: 'var(--slate-7)',
-          8: 'var(--slate-8)',
-          9: 'var(--slate-9)',
-          10: 'var(--slate-10)',
-          11: 'var(--slate-11)',
-          12: 'var(--slate-12)',
-        },
-        slateA: {
-          1: 'var(--slate-a1)',
-          2: 'var(--slate-a2)',
-          3: 'var(--slate-a3)',
-          4: 'var(--slate-a4)',
-          5: 'var(--slate-a5)',
-          6: 'var(--slate-a6)',
-          7: 'var(--slate-a7)',
-          8: 'var(--slate-a8)',
-          9: 'var(--slate-a9)',
-          10: 'var(--slate-a10)',
-          11: 'var(--slate-a11)',
-          12: 'var(--slate-a12)',
+        sidebar: {
+          'accent': 'hsl(var(--sidebar-accent))',
+          'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
+          'border': 'hsl(var(--sidebar-border))',
+          'DEFAULT': 'hsl(var(--sidebar-background))',
+          'foreground': 'hsl(var(--sidebar-foreground))',
+          'primary': 'hsl(var(--sidebar-primary))',
+          'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
+          'ring': 'hsl(var(--sidebar-ring))',
         },
       },
       fontFamily: {
@@ -113,12 +82,20 @@ export default {
       },
       keyframes: {
         'accordion-down': {
-          from: { height: '0' },
-          to: { height: 'var(--radix-accordion-content-height)' },
+          from: {
+            height: '0',
+          },
+          to: {
+            height: 'var(--radix-accordion-content-height)',
+          },
         },
         'accordion-up': {
-          from: { height: 'var(--radix-accordion-content-height)' },
-          to: { height: '0' },
+          from: {
+            height: 'var(--radix-accordion-content-height)',
+          },
+          to: {
+            height: '0',
+          },
         },
       },
     },
