@@ -1,36 +1,36 @@
 import { relations } from 'drizzle-orm'
-import { boolean, integer, pgTable, serial, text, timestamp, varchar } from 'drizzle-orm/pg-core'
+import { integer, pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core'
 import { createInsertSchema, createSelectSchema } from 'drizzle-valibot'
 
-import { noteTable } from '~/db/schema/note'
+import type { InsertJournal, Journal } from '~/types/journal'
+
 import { userTable } from '~/db/schema/user'
+import { workspace } from '~/db/schema/workspace'
 
 export const journalTable = pgTable('journals', {
-  authorId: integer('author_Id')
-    .notNull()
-    .references(() => userTable.id, { onDelete: 'cascade' }),
-  cover: text('cover'),
+  authorId: integer('author_id').notNull().references(() => userTable.id),
+  content: text('content').notNull(),
   createdAt: timestamp('created_at', { mode: 'date' }).defaultNow().notNull(),
-  creatorId: integer('creator_id').notNull().references(() => userTable.id, { onDelete: 'cascade' }),
-  description: text('description'),
-  expiresAt: timestamp('expires_at', { mode: 'date' }).notNull(),
   id: serial('id').primaryKey(),
-
-  isExpired: boolean('is_expired').default(false),
-  isPublic: boolean('is_public').default(false),
-  notesCount: integer('notes_count'),
-
-  slug: varchar('slug', { length: 256 }).notNull().unique(),
   title: text('title').notNull(),
+  updatedAt: timestamp('updated_at', { mode: 'date' }).defaultNow(),
+  workspaceId: integer('workspace_id').references(() => workspace.id, {
+    onDelete: 'cascade',
+  }),
 })
 
-export const journalsRelations = relations(journalTable, ({ many, one }) => ({
-  creators: one(userTable, {
-    fields: [journalTable.creatorId],
+export const journalRelations = relations(journalTable, ({ one }) => ({
+  author: one(userTable, {
+    fields: [journalTable.authorId],
     references: [userTable.id],
+    relationName: 'journalAuthor',
   }),
-  notes: many(noteTable),
+  workspace: one(workspace, {
+    fields: [journalTable.workspaceId],
+    references: [workspace.id],
+    relationName: 'journalWorkspace',
+  }),
 }))
 
-export const insertJournalSchema = createInsertSchema(journalTable)
-export const selectJournalSchema = createSelectSchema(journalTable)
+export const insertJournalSchema = createInsertSchema<typeof journalTable, InsertJournal>(journalTable)
+export const selectJournalSchema = createSelectSchema<typeof journalTable, Journal>(journalTable)

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 
 import { Open_Sans } from 'next/font/google'
+import { ViewTransitions } from 'next-view-transitions'
 
 import { Toaster } from '~/components/ui/toaster'
 import { cn } from '~/lib/utils'
@@ -28,15 +29,17 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={cn(
-        'min-h-screen bg-background font-sans antialiased',
-        fontSans.variable,
-      )}
-      >
-        <main>{children}</main>
-        <Toaster />
-      </body>
-    </html>
+    <ViewTransitions>
+      <html lang="en" suppressHydrationWarning>
+        <body className={cn(
+          'min-h-screen bg-background font-sans antialiased',
+          fontSans.variable,
+        )}
+        >
+          <main>{children}</main>
+          <Toaster />
+        </body>
+      </html>
+    </ViewTransitions>
   )
 }

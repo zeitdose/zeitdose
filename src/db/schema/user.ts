@@ -23,7 +23,7 @@ export const userTable = pgTable('user', {
   }),
 })
 
-export const userRelations = relations(userTable, ({ many, one }) => ({
+export const userRelations = relations(userTable, ({ _, one }) => ({
   workspace: one(workspace, {
     fields: [userTable.workspaceId],
     references: [workspace.id],
