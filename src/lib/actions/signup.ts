@@ -3,14 +3,13 @@
 import { hash } from '@node-rs/argon2'
 import { eq } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
-import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
 import type { PostgreSQLError } from '~/types/error'
 
 import { db } from '~/db/drizzle'
 import { userTable } from '~/db/schema'
-import { lucia } from '~/lib/auth'
+import { createSession, setSessionTokenCookie } from '~/lib/auth'
 
 export const signUp = async (preState: any, formData: FormData) => {
   const { password, username } = {
@@ -55,10 +54,8 @@ export const signUp = async (preState: any, formData: FormData) => {
       username,
     }).returning({ id: userTable.id })
 
-    const session = await lucia.createSession(result[0].id, {})
-    const sessionCookie = lucia.createSessionCookie(session.id)
-    const cookieStore = await cookies()
-    cookieStore.set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes)
+    const session = await createSession(result[0].id)
+    await setSessionTokenCookie(session.id)
   }
   catch (e) {
     if (e instanceof Error) {

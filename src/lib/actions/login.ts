@@ -2,12 +2,11 @@
 
 import { verify } from '@node-rs/argon2'
 import { eq } from 'drizzle-orm'
-import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
 import { db } from '~/db/drizzle'
 import { userTable } from '~/db/schema'
-import { lucia } from '~/lib/auth'
+import { createSession, setSessionTokenCookie } from '~/lib/auth'
 
 export const login = async (preState: any, formData: FormData) => {
   const { password, username } = {
@@ -48,10 +47,8 @@ export const login = async (preState: any, formData: FormData) => {
     }
   }
 
-  const session = await lucia.createSession(user.id, {})
-  const sessionCookie = lucia.createSessionCookie(session.id)
-  const cookieStore = await cookies()
-  cookieStore.set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes)
-  
+  const session = await createSession(user.id)
+  await setSessionTokenCookie(session.id)
+
   return redirect('/')
 }

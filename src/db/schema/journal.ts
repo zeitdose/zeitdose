@@ -2,8 +2,6 @@ import { relations } from 'drizzle-orm'
 import { integer, pgTable, serial, text, timestamp } from 'drizzle-orm/pg-core'
 import { createInsertSchema, createSelectSchema } from 'drizzle-valibot'
 
-import type { InsertJournal, Journal } from '~/types/journal'
-
 import { userTable } from '~/db/schema/user'
 import { workspace } from '~/db/schema/workspace'
 
@@ -32,5 +30,5 @@ export const journalRelations = relations(journalTable, ({ one }) => ({
   }),
 }))
 
-export const insertJournalSchema = createInsertSchema<typeof journalTable, InsertJournal>(journalTable)
-export const selectJournalSchema = createSelectSchema<typeof journalTable, Journal>(journalTable)
+export const insertJournalSchema = createInsertSchema(journalTable)
+export const selectJournalSchema = createSelectSchema(journalTable)
