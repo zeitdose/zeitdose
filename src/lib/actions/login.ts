@@ -50,7 +50,8 @@ export const login = async (preState: any, formData: FormData) => {
 
   const session = await lucia.createSession(user.id, {})
   const sessionCookie = lucia.createSessionCookie(session.id)
-  cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes)
-
+  const cookieStore = await cookies()
+  cookieStore.set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes)
+  
   return redirect('/')
 }
