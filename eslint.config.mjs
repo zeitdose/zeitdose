@@ -5,6 +5,7 @@ export default antfu(
   {
     react: true,
     typescript: true,
+    ignores: ['**/*.d.ts'],
   },
   {
     files: ['src/components/ui/**/*.{ts,tsx}'],
@@ -13,6 +14,11 @@ export default antfu(
       'react-refresh/only-export-components': 'off',
       'ts/no-use-before-define': 'off',
       'unused-imports/no-unused-vars': 'off',
+    },
+  },
+  {
+    rules: {
+      'style/no-mixed-operators': 'off',
     },
   },
 ).append(ii({ functional: false }))

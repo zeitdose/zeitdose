@@ -1,12 +1,12 @@
 export interface DatabaseUser {
-  avatarUrl?: string
+  avatarUrl: string | null
   createdAt: Date
-  email?: string
-  hashedPassword?: string
+  email: string | null
+  hashedPassword: string | null
   id: number
-  remindBefore: number
-  reminder: 'email' | 'matrix' | 'system' | 'telegram'
-  updatedAt: Date
+  remindBefore: number | null
+  reminder: 'email' | 'matrix' | 'system' | 'telegram' | null
+  updatedAt: Date | null
   username: string
-  workspaceId: number
+  workspaceId: number | null
 }

@@ -1,5 +1,3 @@
-import type { Session, User } from 'lucia'
-
 import { sha256 } from '@oslojs/crypto/sha2'
 import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from '@oslojs/encoding'
 import { eq } from 'drizzle-orm'
@@ -11,6 +9,15 @@ import type { DatabaseUser } from '~/types/user'
 
 import { db } from '~/db/drizzle'
 import { sessionTable, userTable } from '~/db/schema'
+
+export interface Session {
+  id: string
+  userId: number
+  expiresAt: Date
+  fresh: boolean
+}
+
+export type User = DatabaseUser
 
 const SESSION_COOKIE_NAME = 'auth_session'
 
@@ -160,9 +167,3 @@ export const validateRequest = cache(
     return validateSessionToken(token)
   },
 )
-declare module 'lucia' {
-  interface Register {
-    DatabaseUserAttributes: Omit<DatabaseUser, 'id'>
-    UserId: number
-  }
-}
