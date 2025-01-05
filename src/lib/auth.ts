@@ -11,10 +11,10 @@ import { db } from '~/db/drizzle'
 import { sessionTable, userTable } from '~/db/schema'
 
 export interface Session {
-  id: string
-  userId: number
   expiresAt: Date
   fresh: boolean
+  id: string
+  userId: number
 }
 
 export type User = DatabaseUser

@@ -3,9 +3,11 @@ import ii from '@importantimport/eslint-config'
 
 export default antfu(
   {
-    react: true,
-    typescript: true,
     ignores: ['**/*.d.ts'],
+    react: true,
+    typescript: {
+      tsconfigPath: './tsconfig.json',
+    },
   },
   {
     files: ['src/components/ui/**/*.{ts,tsx}'],
@@ -18,6 +20,7 @@ export default antfu(
   },
   {
     rules: {
+      'perfectionist/sort-objects': 'error',
       'style/no-mixed-operators': 'off',
     },
   },
